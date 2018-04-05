@@ -16,12 +16,137 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bugscript.iplimpulse.fragments.ProfileFragment;
+import com.bugscript.iplimpulse.fragments.ScheduleFragment;
 import com.bugscript.iplimpulse.fragments.UpcomingFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     FragmentManager fragmentManager;
+    public static String[] schedule_list_fixed={
+            "MI V CSK",
+            "KXIP V DD",
+            "KKR V RCB",
+            "SRH V RR",
+            "CSK V KKR",
+            "RR V DD",
+            "SRH V MI",
+            "RCB V KXIP",
+            "MI V DD",
+            "KKR V SRH",
+            "RCB V RR",
+            "KXIP V CSK",
+            "KKR V DD",
+            "MI V RCB",
+            "RR V KKR",
+            "KXIP V SRH",
+            "CSK V RR",
+            "KKR V KXIP",
+            "RCB V DD",
+            "SRH V CSK",
+            "RR V MI",
+            "DD V KXIP",
+            "MI V SRH",
+            "RCB V CSK",
+            "SRH V KXIP",
+            "DD V KKR",
+            "CSK V MI",
+            "RR V SRH",
+            "RCB V KKR",
+            "CSK V DD",
+            "RCB V MI",
+            "DD V RR",
+            "KKR V CSK",
+            "KXIP V MI",
+            "CSK V RCB",
+            "SRH V DD",
+            "MI V KKR",
+            "KXIP V RR",
+            "SRH V RCB",
+            "RR V KXIP",
+            "KKR V MI",
+            "DD V SRH",
+            "RR V CSK",
+            "KXIP V KKR",
+            "DD V RCB",
+            "CSK V SRH",
+            "MI V RR",
+            "KXIP V RCB",
+            "KKR V RR",
+            "MI V KXIP",
+            "RCB V SRH",
+            "DD V CSK",
+            "RR V RCB",
+            "SRH V KKR",
+            "DD V MI",
+            "CSK V KXIP",
+            "QUALIFIER I",
+            "ELIMINATOR",
+            "QUALIFIER II",
+            "FINALS"
+    };
+    public static String[] dates ={
+            "7 April",
+            "8 April",
+            "8 April",
+            "9 April",
+            "10 April",
+            "11 April",
+            "12 April",
+            "13 April",
+            "14 April",
+            "14 April",
+            "15 April",
+            "15 April",
+            "16 April",
+            "17 April",
+            "18 April",
+            "19 April",
+            "20 April",
+            "21 April",
+            "21 April",
+            "22 April",
+            "22 April",
+            "23 April",
+            "24 April",
+            "25 April",
+            "26 April",
+            "27 April",
+            "28 April",
+            "29 April",
+            "29 April",
+            "30 April",
+            "1 May",
+            "2 May",
+            "3 May",
+            "4 May",
+            "5 May",
+            "5 May",
+            "6 May",
+            "6 May",
+            "7 May",
+            "8 May",
+            "9 May",
+            "10 May",
+            "11 May",
+            "12 May",
+            "12 May",
+            "13 May",
+            "13 May",
+            "14 May",
+            "15 May",
+            "16 May",
+            "17 May",
+            "18 May",
+            "19 May",
+            "19 May",
+            "20 May",
+            "20 May",
+            "22 May",
+            "23 May",
+            "25 May",
+            "27 May",
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +157,9 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction()
                 .add(R.id.main_frame,new UpcomingFragment())
                 .commit();
+
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle("Up coming");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -95,20 +223,34 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_up) {
             // Handle the camera action
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Up coming");
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new UpcomingFragment())
                     .commit();
         } else if (id == R.id.nav_schedule) {
-
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Schedule");
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame, new ScheduleFragment())
+                    .commit();
         } else if (id == R.id.nav_groups) {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Groups");
 
         } else if (id == R.id.nav_pro) {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Profile");
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new ProfileFragment())
                     .commit();
         } else if (id == R.id.leader) {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Leader Boards");
 
         } else if (id == R.id.history) {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Vote History");
 
         }
 
