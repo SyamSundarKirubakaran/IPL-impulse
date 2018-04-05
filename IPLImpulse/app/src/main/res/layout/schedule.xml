@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.v7.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,6 +8,7 @@
     android:horizontalSpacing="1dp"
     android:scrollbarStyle="insideOverlay"
     android:scrollbars="none"
+    android:background="@color/dark_grey"
     android:visibility="visible"
     android:stretchMode="columnWidth"
     android:verticalSpacing="2dp"

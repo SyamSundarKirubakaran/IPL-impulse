@@ -148,6 +148,65 @@ public class MainActivity extends AppCompatActivity
             "27 May",
     };
 
+    public static String[] stadium={
+            "Wankhede Stadium, Mumbai",
+            "Punjab Cricket Association Stadium, Mohali, Chandigarh",
+            "Eden Gardens, Kolkata",
+            "Rajiv Gandhi International Cricket Stadium, Hyderabad",
+            "M. A. Chidambaram Stadium, Chepauk, Chennai",
+            "Sawai Mansingh Stadium, Jaipur",
+            "Rajiv Gandhi International Cricket Stadium, Hyderabad",
+            "M. Chinnaswamy Stadium, Bangalore",
+            "Wankhede Stadium, Mumbai",
+            "Eden Gardens, Kolkata",
+            "M. Chinnaswamy Stadium, Bangalore",
+            "Punjab Cricket Association Stadium, Mohali, Chandigarh",
+            "Eden Gardens, Kolkata",
+            "Wankhede Stadium, Mumbai",
+            "Sawai Mansingh Stadium, Jaipur",
+            "Punjab Cricket Association Stadium, Mohali, Chandigarh",
+            "M. A. Chidambaram Stadium, Chepauk, Chennai",
+            "Eden Gardens, Kolkata",
+            "M. Chinnaswamy Stadium, Bangalore",
+            "Rajiv Gandhi International Cricket Stadium, Hyderabad",
+            "Sawai Mansingh Stadium, Jaipur",
+            "Feroz Shah Kotla, Delhi",
+            "Wankhede Stadium, Mumbai",
+            "M. Chinnaswamy Stadium, Bangalore",
+            "Rajiv Gandhi International Cricket Stadium, Hyderabad",
+            "Feroz Shah Kotla, Delhi",
+            "M. A. Chidambaram Stadium, Chepauk, Chennai",
+            "Sawai Mansingh Stadium, Jaipur",
+            "M. Chinnaswamy Stadium, Bangalore",
+            "M. A. Chidambaram Stadium, Chepauk, Chennai",
+            "M. Chinnaswamy Stadium, Bangalore",
+            "Feroz Shah Kotla, Delhi",
+            "Eden Gardens, Kolkata",
+            "Holkar Cricket Stadium, Indore",
+            "M. A. Chidambaram Stadium, Chepauk, Chennai",
+            "Rajiv Gandhi International Cricket Stadium, Hyderabad",
+            "Wankhede Stadium, Mumbai",
+            "Holkar Cricket Stadium, Indore",
+            "Rajiv Gandhi International Cricket Stadium, Hyderabad",
+            "Sawai Mansingh Stadium, Jaipur",
+            "Eden Gardens, Kolkata",
+            "Feroz Shah Kotla, Delhi",
+            "Sawai Mansingh Stadium, Jaipur",
+            "Holkar Cricket Stadium, Indore",
+            "Feroz Shah Kotla, Delhi",
+            "M. A. Chidambaram Stadium, Chepauk, Chennai",
+            "Wankhede Stadium, Mumbai",
+            "Holkar Cricket Stadium, Indore",
+            "Eden Gardens, Kolkata",
+            "Wankhede Stadium, Mumbai",
+            "M. Chinnaswamy Stadium, Bangalore",
+            "Feroz Shah Kotla, Delhi",
+            "Sawai Mansingh Stadium, Jaipur",
+            "Rajiv Gandhi International Cricket Stadium, Hyderabad",
+            "Feroz Shah Kotla, Delhi",
+            "M. A. Chidambaram Stadium, Chepauk, Chennai"
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -251,7 +310,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.history) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Vote History");
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
