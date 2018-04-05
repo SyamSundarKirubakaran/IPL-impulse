@@ -1,6 +1,7 @@
 package com.bugscript.iplimpulse.authentication;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -65,6 +66,8 @@ public class PhoneAuthActivity extends AppCompatActivity implements
     private Button mVerifyButton;
     private Button mResendButton;
     private Button mSignOutButton;
+
+    private ProgressDialog progress;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -356,6 +359,8 @@ public class PhoneAuthActivity extends AppCompatActivity implements
 //
 //            mStatusText.setText(R.string.signed_in);
 //            mDetailText.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+            progress.dismiss();
+            mPhoneNumberField.setText("");
             Intent i =new Intent(PhoneAuthActivity.this, MainActivity.class);
             startActivity(i);
         }
@@ -390,7 +395,9 @@ public class PhoneAuthActivity extends AppCompatActivity implements
                 if (!validatePhoneNumber()) {
                     return;
                 }
-
+                progress=new ProgressDialog(this);
+                progress.setMessage("Authenticating..");
+                progress.show();
                 startPhoneNumberVerification(mPhoneNumberField.getText().toString());
                 break;
             case R.id.button_verify_phone:

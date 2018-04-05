@@ -2,6 +2,7 @@ package com.bugscript.iplimpulse;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,9 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bugscript.iplimpulse.authentication.PhoneAuthActivity;
 import com.bugscript.iplimpulse.fragments.ProfileFragment;
 import com.bugscript.iplimpulse.fragments.ScheduleFragment;
 import com.bugscript.iplimpulse.fragments.UpcomingFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -274,6 +278,9 @@ public class MainActivity extends AppCompatActivity
             "20:00 (D/N)"
     };
 
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -289,6 +296,9 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -377,6 +387,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.history) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Vote History");
+        } else if (id == R.id.logout) {
+            if(currentUser != null) {
+                mAuth.signOut();
+                finish();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

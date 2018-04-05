@@ -23,7 +23,8 @@
             android:label="@string/title_activity_match_details"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".authentication.PhoneAuthActivity">
+        <activity android:name=".authentication.PhoneAuthActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
