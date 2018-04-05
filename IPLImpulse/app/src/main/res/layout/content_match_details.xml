@@ -7,11 +7,119 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MatchDetails"
     tools:showIn="@layout/activity_match_details">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:paddingBottom="16dp"
+        android:id="@+id/detailScrollViewContainer">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+
+        <TextView
+            android:id="@+id/movieTitleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:text="Stadium:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/movieTitleValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/movieTitleLabel"
+            android:layout_below="@+id/movieTitleLabel"
+            android:text="CSK Stadium"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/movieReleaseDatelabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/movieTitleLabel"
+            android:layout_marginTop="70dp"
+            android:text="Date:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/movieReleaseDateValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/movieTitleLabel"
+            android:layout_below="@+id/movieReleaseDatelabel"
+            android:text="12 April"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/movieVoteLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/movieTitleLabel"
+            android:layout_marginTop="124dp"
+            android:text="Time:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/movieVoteValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/movieTitleLabel"
+            android:layout_below="@+id/movieVoteLabel"
+            android:text="22:00"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/movieTitleLabel"
+            android:layout_marginTop="178dp"
+            android:text="Average votes:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/movieTitleLabel"
+            android:layout_below="@+id/textView19"
+            android:text="80.9%"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/movieTitleLabel"
+            android:layout_marginTop="230dp"
+            android:text="Page Hits"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/movieTitleLabel"
+            android:layout_below="@+id/textView21"
+            android:text="990"
+            android:textColor="@color/dark_grey"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>
