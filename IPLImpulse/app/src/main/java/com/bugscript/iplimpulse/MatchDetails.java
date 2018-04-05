@@ -40,5 +40,6 @@ public class MatchDetails extends AppCompatActivity {
         }
         stadium_con.setText(MainActivity.stadium[id]);
         date_con.setText(MainActivity.dates[id]);
+        time_con.setText(MainActivity.time_schedule[id]);
     }
 }
