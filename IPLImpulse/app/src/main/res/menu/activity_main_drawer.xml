@@ -36,6 +36,10 @@
         <item android:title="Utils">
             <menu>
                 <item
+                    android:id="@+id/rule"
+                    android:icon="@drawable/rules"
+                    android:title="Rule Book" />
+                <item
                     android:id="@+id/logout"
                     android:icon="@drawable/ic_power_settings_new_black_24dp"
                     android:title="Log out" />

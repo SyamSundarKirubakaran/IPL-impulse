@@ -25,6 +25,7 @@ import com.bugscript.iplimpulse.bet.BetActivity;
 import com.bugscript.iplimpulse.fragments.HistoryFragment;
 import com.bugscript.iplimpulse.fragments.LeaderBoardsFragment;
 import com.bugscript.iplimpulse.fragments.ProfileFragment;
+import com.bugscript.iplimpulse.fragments.RulesFragment;
 import com.bugscript.iplimpulse.fragments.ScheduleFragment;
 import com.bugscript.iplimpulse.fragments.UpcomingFragment;
 import com.google.firebase.FirebaseApp;
@@ -695,6 +696,12 @@ public class MainActivity extends AppCompatActivity
                 mAuth.signOut();
                 finish();
             }
+        } else if (id == R.id.rule){
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Rule Book");
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame, new RulesFragment())
+                    .commitAllowingStateLoss();
         }
 //        Toast.makeText(MainActivity.this,currentUser.getUid()+"",Toast.LENGTH_LONG).show();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
