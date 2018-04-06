@@ -43,6 +43,26 @@ public class UpcomingFragment extends Fragment{
         ma.setText(MainActivity.current_upcoming);
         sta.setText(MainActivity.current_stadium);
         be.setText(MainActivity.current_bet_on);
+        if(MainActivity.flag_3==1){
+            switch (MainActivity.ar_img_1_string){
+                case "up":
+                    ar_1.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+                    break;
+                case "down":
+                    ar_1.setImageResource(R.drawable.down_red);
+                    break;
+            }
+        }
+        if(MainActivity.flag_4==1){
+            switch (MainActivity.ar_img_2_string){
+                case "up":
+                    ar_2.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+                    break;
+                case "down":
+                    ar_2.setImageResource(R.drawable.down_red);
+                    break;
+            }
+        }
         if(MainActivity.ar_img_1_string.equals("up")){
             ar_val_1.setTextColor(Color.parseColor("#4CAF50"));
         }else{
@@ -108,26 +128,6 @@ public class UpcomingFragment extends Fragment{
                     break;
                 case "srh":
                     te_2.setImageResource(R.drawable.srh);
-                    break;
-            }
-        }
-        if(MainActivity.flag_3==1){
-            switch (MainActivity.ar_img_1_string){
-                case "up":
-                    ar_1.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
-                    break;
-                case "down":
-                    ar_2.setImageResource(R.drawable.down_red);
-                    break;
-            }
-        }
-        if(MainActivity.flag_4==1){
-            switch (MainActivity.ar_img_2_string){
-                case "up":
-                    ar_1.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
-                    break;
-                case "down":
-                    ar_2.setImageResource(R.drawable.down_red);
                     break;
             }
         }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bugscript.iplimpulse.MainActivity;
+import com.bugscript.iplimpulse.PrimaryWrite;
 import com.bugscript.iplimpulse.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.concurrent.TimeUnit;
 
@@ -68,6 +71,10 @@ public class PhoneAuthActivity extends AppCompatActivity implements
     private Button mSignOutButton;
 
     private ProgressDialog progress;
+
+    private DatabaseReference databaseReference;
+    private FirebaseAuth mAuthu;
+    protected FirebaseUser cUser;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -364,6 +371,11 @@ public class PhoneAuthActivity extends AppCompatActivity implements
 //            mDetailText.setText(getString(R.string.firebase_status_fmt, user.getUid()));
             if(progress!=null)
                 progress.dismiss();
+            databaseReference= FirebaseDatabase.getInstance().getReference();
+            mAuthu = FirebaseAuth.getInstance();
+            cUser = mAuthu.getCurrentUser();
+            PrimaryWrite primaryWrite=new PrimaryWrite(cUser.getUid(),cUser.getPhoneNumber(),"NA","NA","1000","0");
+            databaseReference.child("user").child(cUser.getUid()).setValue(primaryWrite);
             mPhoneNumberField.setText("");
             Intent i =new Intent(PhoneAuthActivity.this, MainActivity.class);
             startActivity(i);

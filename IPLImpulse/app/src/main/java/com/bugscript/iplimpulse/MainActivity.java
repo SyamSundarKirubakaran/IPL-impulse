@@ -17,9 +17,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bugscript.iplimpulse.fragments.HistoryFragment;
+import com.bugscript.iplimpulse.fragments.LeaderBoardsFragment;
 import com.bugscript.iplimpulse.fragments.ProfileFragment;
 import com.bugscript.iplimpulse.fragments.ScheduleFragment;
 import com.bugscript.iplimpulse.fragments.UpcomingFragment;
@@ -31,6 +33,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -288,15 +293,16 @@ public class MainActivity extends AppCompatActivity
     };
 
     private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
+    public static FirebaseUser currentUser;
     private DatabaseReference databaseReference;
     private DatabaseReference d_stadium;
     private DatabaseReference d_coming;
     private DatabaseReference d_bet_on;
     private DatabaseReference d_team1;
     private DatabaseReference d_team2;
-    private DatabaseReference ar_img_1,ar_img_2,arVal1,arVal2;
+    private DatabaseReference ar_img_1,ar_img_2,arVal1,arVal2,user_name_reference, support_team_reference, points_reference;
     public static String ar_img_1_string = "nothing", ar_img_2_string = "nothing", ar_val_1_str, ar_val_2_str;
+    public static String current_support_team,current_points,current_user_name;
     public static String t1;
     public static String t2;
     public static String current_stadium="fetching..";
@@ -314,6 +320,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        NavigationView navigation = (NavigationView) findViewById(R.id.nav_view);
+        final View headerView = navigation.getHeaderView(0);
+        final TextView navUsername = (TextView) headerView.findViewById(R.id.text_name_preview);
+
         fragmentManager=getFragmentManager();
         progress=new ProgressDialog(this);
         progress.setMessage("Fetching..");
@@ -328,8 +338,8 @@ public class MainActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference();
-        PrimaryWrite primaryWrite=new PrimaryWrite("Syam",currentUser.getPhoneNumber(),"CSK","CSK",100,20);
-        databaseReference.child("user").child(currentUser.getUid()).setValue(primaryWrite);
+//        PrimaryWrite primaryWrite=new PrimaryWrite(currentUser.getUid(),currentUser.getPhoneNumber(),"NA","NA","1000","0");
+//        databaseReference.child("user").child(currentUser.getUid()).setValue(primaryWrite);
 
 //        Toast.makeText(MainActivity.this,currentUser.getPhoneNumber(),Toast.LENGTH_LONG).show();
         d_stadium= FirebaseDatabase.getInstance().getReference("stadium");
@@ -477,6 +487,51 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        user_name_reference = FirebaseDatabase.getInstance().getReference("user/"+currentUser.getUid()+"/user_name");
+        user_name_reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                current_user_name = dataSnapshot.getValue(String.class);
+                navUsername.setText(current_user_name);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        support_team_reference = FirebaseDatabase.getInstance().getReference("user/"+currentUser.getUid()+"/support_team");
+        support_team_reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                current_support_team = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,current_bet_on+"",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        points_reference = FirebaseDatabase.getInstance().getReference("user/"+currentUser.getUid()+"/points");
+        points_reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                current_points = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,current_bet_on+"",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        TextView navPhone = (TextView) headerView.findViewById(R.id.textView);
+        navPhone.setText(currentUser.getPhoneNumber());
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -586,7 +641,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.leader) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Leader Boards");
-
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame, new LeaderBoardsFragment())
+                    .commit();
         } else if (id == R.id.history) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Betting History");

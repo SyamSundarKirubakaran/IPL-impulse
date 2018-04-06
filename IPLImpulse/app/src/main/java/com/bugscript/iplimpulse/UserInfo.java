@@ -6,17 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class UserInfo extends AppCompatActivity {
+    @BindView(R.id.editText) EditText u_name;
     @BindView(R.id.spinner) Spinner spinner;
     @BindView(R.id.floatingActionButton) FloatingActionButton fab1;
 
     public String[] teams = {"CSK", "RCB", "MI", "KXIP", "KKR", "DD", "RR", "SRH"};
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +38,12 @@ public class UserInfo extends AppCompatActivity {
                         .setAction("Yes", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(UserInfo.this,"Yes Clicked",Toast.LENGTH_LONG).show();
+                                String u_name_confirmed = u_name.getText().toString().trim();
+                                String home_team = spinner.getSelectedItem().toString();
+                                databaseReference= FirebaseDatabase.getInstance().getReference();
+                                databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("user_name").setValue(u_name_confirmed);
+                                databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(home_team);
+                                finish();
                             }
                         }).show();
             }
