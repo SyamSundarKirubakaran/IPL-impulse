@@ -2,6 +2,7 @@ package com.bugscript.iplimpulse;
 
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,10 +23,14 @@ import com.bugscript.iplimpulse.fragments.HistoryFragment;
 import com.bugscript.iplimpulse.fragments.ProfileFragment;
 import com.bugscript.iplimpulse.fragments.ScheduleFragment;
 import com.bugscript.iplimpulse.fragments.UpcomingFragment;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -285,6 +290,24 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference databaseReference;
+    private DatabaseReference d_stadium;
+    private DatabaseReference d_coming;
+    private DatabaseReference d_bet_on;
+    private DatabaseReference d_team1;
+    private DatabaseReference d_team2;
+    private DatabaseReference ar_img_1,ar_img_2,arVal1,arVal2;
+    public static String ar_img_1_string = "nothing", ar_img_2_string = "nothing", ar_val_1_str, ar_val_2_str;
+    public static String t1;
+    public static String t2;
+    public static String current_stadium="fetching..";
+    public static String current_upcoming="fetching..";
+    public static String current_bet_on="fetching..";
+    private ProgressDialog progress;
+
+    public static int flag_1=0;
+    public static int flag_2=0;
+    public static int flag_3=0;
+    public static int flag_4=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -292,9 +315,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         fragmentManager=getFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.main_frame,new UpcomingFragment())
-                .commit();
+        progress=new ProgressDialog(this);
+        progress.setMessage("Fetching..");
+        progress.show();
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setTitle("Up coming");
@@ -305,16 +328,167 @@ public class MainActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         databaseReference= FirebaseDatabase.getInstance().getReference();
-        PrimaryWrite primaryWrite=new PrimaryWrite("Syam",currentUser.getPhoneNumber(),"CSK",100,20);
+        PrimaryWrite primaryWrite=new PrimaryWrite("Syam",currentUser.getPhoneNumber(),"CSK","CSK",100,20);
         databaseReference.child("user").child(currentUser.getUid()).setValue(primaryWrite);
+
 //        Toast.makeText(MainActivity.this,currentUser.getPhoneNumber(),Toast.LENGTH_LONG).show();
+        d_stadium= FirebaseDatabase.getInstance().getReference("stadium");
+
+//        current_stadium = drf.getDatabase().toString();
+//        Toast.makeText(MainActivity.this,current_stadium+"",Toast.LENGTH_LONG).show();
+
+        d_stadium.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                current_stadium = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,current_stadium+"",Toast.LENGTH_LONG).show();
+                main_replace();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        d_coming = FirebaseDatabase.getInstance().getReference("upcoming");
+        d_coming.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                current_upcoming = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,current_upcoming+"",Toast.LENGTH_LONG).show();
+                main_replace();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        d_bet_on = FirebaseDatabase.getInstance().getReference("user/"+currentUser.getUid()+"/bet_team");
+        d_bet_on.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                current_bet_on = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,current_bet_on+"",Toast.LENGTH_LONG).show();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.main_frame,new UpcomingFragment())
+                        .commit();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        d_team1 = FirebaseDatabase.getInstance().getReference("team_1");
+        d_team1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                t1 = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,t1+"",Toast.LENGTH_LONG).show();
+                flag_1=1;
+                main_replace();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        d_team2 = FirebaseDatabase.getInstance().getReference("team_2");
+        d_team2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                t2 = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,t2+"",Toast.LENGTH_LONG).show();
+                flag_2=1;
+                main_replace();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        ar_img_1 = FirebaseDatabase.getInstance().getReference("arrow_1");
+        ar_img_1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                 ar_img_1_string= dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,ar_img_1_string+"",Toast.LENGTH_LONG).show();
+                flag_3=1;
+                main_replace();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        ar_img_2 = FirebaseDatabase.getInstance().getReference("arrow_2");
+        ar_img_2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ar_img_2_string = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,ar_img_2_string+"",Toast.LENGTH_LONG).show();
+                flag_4=1;
+                main_replace();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        arVal1 = FirebaseDatabase.getInstance().getReference("arrow_val_1");
+        arVal1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ar_val_1_str = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,ar_val_1_str+"",Toast.LENGTH_LONG).show();
+                main_replace();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        arVal2 = FirebaseDatabase.getInstance().getReference("arrow_val_2");
+        arVal2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ar_val_2_str = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,ar_val_2_str+"",Toast.LENGTH_LONG).show();
+                main_replace();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Make your bet for today", Snackbar.LENGTH_LONG)
+                        .setAction("Yes", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this,"Yes Clicked",Toast.LENGTH_LONG).show();
+                            }
+                        }).show();
             }
         });
 
@@ -373,7 +547,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent i =new Intent(MainActivity.this,UserInfo.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
@@ -428,5 +603,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void main_replace(){
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_frame,new UpcomingFragment())
+                .commit();
+        progress.dismiss();
     }
 }
