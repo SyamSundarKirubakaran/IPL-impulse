@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bugscript.iplimpulse.bet.BetActivity;
 import com.bugscript.iplimpulse.fragments.HistoryFragment;
 import com.bugscript.iplimpulse.fragments.LeaderBoardsFragment;
 import com.bugscript.iplimpulse.fragments.ProfileFragment;
@@ -302,10 +303,12 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference d_team1;
     private DatabaseReference d_team2;
     private DatabaseReference ar_img_1,ar_img_2,arVal1,arVal2,user_name_reference, support_team_reference, points_reference;
+    private DatabaseReference avg_vote,page_hits;
     public static String ar_img_1_string = "nothing", ar_img_2_string = "nothing", ar_val_1_str, ar_val_2_str;
     public static String current_support_team,current_points,current_user_name;
-    public static String t1;
-    public static String t2;
+    public static String t1,t2;
+    public static String avg_votes_str;
+    public static String page_hits_str;
     public static String current_stadium="fetching..";
     public static String current_upcoming="fetching..";
     public static String current_bet_on="fetching..";
@@ -345,6 +348,8 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = getSharedPreferences("shared",MODE_PRIVATE);
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("user_name").setValue(sharedPreferences.getString("name_int",currentUser.getUid()));
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(sharedPreferences.getString("team_str","CSK"));
+        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("bet").setValue(sharedPreferences.getString("bet_str","0"));
+        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("bet_team").setValue(sharedPreferences.getString("bet_team_str","NA"));
 
 
 //        Toast.makeText(MainActivity.this,currentUser.getPhoneNumber(),Toast.LENGTH_LONG).show();
@@ -390,7 +395,7 @@ public class MainActivity extends AppCompatActivity
 //                Toast.makeText(MainActivity.this,current_bet_on+"",Toast.LENGTH_LONG).show();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_frame,new UpcomingFragment())
-                        .commit();
+                        .commitAllowingStateLoss();
             }
 
             @Override
@@ -535,6 +540,34 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        avg_vote = FirebaseDatabase.getInstance().getReference("schedule/avg_vote");
+        avg_vote.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                avg_votes_str = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,avg_votes_str+"",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        page_hits = FirebaseDatabase.getInstance().getReference("schedule/page_hits");
+        page_hits.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                page_hits_str = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,page_hits+"",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         TextView navPhone = (TextView) headerView.findViewById(R.id.textView);
         navPhone.setText(currentUser.getPhoneNumber());
 
@@ -547,7 +580,8 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Yes", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(MainActivity.this,"Yes Clicked",Toast.LENGTH_LONG).show();
+                                Intent i = new Intent(MainActivity.this, BetActivity.class);
+                                startActivity(i);
                             }
                         }).show();
             }
@@ -627,13 +661,13 @@ public class MainActivity extends AppCompatActivity
                 getSupportActionBar().setTitle("Up coming");
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new UpcomingFragment())
-                    .commit();
+                    .commitAllowingStateLoss();
         } else if (id == R.id.nav_schedule) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Schedule");
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new ScheduleFragment())
-                    .commit();
+                    .commitAllowingStateLoss();
         } else if (id == R.id.nav_groups) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Groups");
@@ -643,19 +677,19 @@ public class MainActivity extends AppCompatActivity
                 getSupportActionBar().setTitle("Profile");
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new ProfileFragment())
-                    .commit();
+                    .commitAllowingStateLoss();
         } else if (id == R.id.leader) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Fan Graph");
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new LeaderBoardsFragment())
-                    .commit();
+                    .commitAllowingStateLoss();
         } else if (id == R.id.history) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Betting History");
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new HistoryFragment())
-                    .commit();
+                    .commitAllowingStateLoss();
         } else if (id == R.id.logout) {
             if (currentUser != null) {
                 mAuth.signOut();
@@ -671,7 +705,7 @@ public class MainActivity extends AppCompatActivity
     public void main_replace(){
         fragmentManager.beginTransaction()
                 .replace(R.id.main_frame,new UpcomingFragment())
-                .commit();
+                .commitAllowingStateLoss();
         progress.dismiss();
     }
 }
