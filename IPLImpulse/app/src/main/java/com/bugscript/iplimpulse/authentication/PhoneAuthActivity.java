@@ -265,6 +265,9 @@ public class PhoneAuthActivity extends AppCompatActivity implements
                             // [START_EXCLUDE silent]
                             // Update UI
                             updateUI(STATE_SIGNIN_FAILED);
+                            Toast.makeText(PhoneAuthActivity.this,"Error Authenticating your number",Toast.LENGTH_LONG).show();
+                            if(progress!=null)
+                                progress.dismiss();
                             // [END_EXCLUDE]
                         }
                     }
@@ -359,7 +362,8 @@ public class PhoneAuthActivity extends AppCompatActivity implements
 //
 //            mStatusText.setText(R.string.signed_in);
 //            mDetailText.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-            progress.dismiss();
+            if(progress!=null)
+                progress.dismiss();
             mPhoneNumberField.setText("");
             Intent i =new Intent(PhoneAuthActivity.this, MainActivity.class);
             startActivity(i);
