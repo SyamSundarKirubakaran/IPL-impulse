@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.bugscript.iplimpulse.fragments.HistoryFragment;
 import com.bugscript.iplimpulse.fragments.ProfileFragment;
@@ -23,6 +24,8 @@ import com.bugscript.iplimpulse.fragments.ScheduleFragment;
 import com.bugscript.iplimpulse.fragments.UpcomingFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -281,6 +284,7 @@ public class MainActivity extends AppCompatActivity
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -300,6 +304,10 @@ public class MainActivity extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        databaseReference= FirebaseDatabase.getInstance().getReference();
+        PrimaryWrite primaryWrite=new PrimaryWrite("Syam",currentUser.getPhoneNumber(),"CSK",100,20);
+        databaseReference.child("user").child(currentUser.getUid()).setValue(primaryWrite);
+//        Toast.makeText(MainActivity.this,currentUser.getPhoneNumber(),Toast.LENGTH_LONG).show();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -416,7 +424,7 @@ public class MainActivity extends AppCompatActivity
                 finish();
             }
         }
-
+//        Toast.makeText(MainActivity.this,currentUser.getUid()+"",Toast.LENGTH_LONG).show();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
