@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bugscript.iplimpulse.fragments.HistoryFragment;
 import com.bugscript.iplimpulse.fragments.ProfileFragment;
 import com.bugscript.iplimpulse.fragments.ScheduleFragment;
 import com.bugscript.iplimpulse.fragments.UpcomingFragment;
@@ -405,7 +406,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.history) {
             if (getSupportActionBar() != null)
-                getSupportActionBar().setTitle("Vote History");
+                getSupportActionBar().setTitle("Betting History");
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame, new HistoryFragment())
+                    .commit();
         } else if (id == R.id.logout) {
             if (currentUser != null) {
                 mAuth.signOut();
