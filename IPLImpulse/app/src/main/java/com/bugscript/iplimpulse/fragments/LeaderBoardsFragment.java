@@ -22,6 +22,11 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -33,16 +38,150 @@ public class LeaderBoardsFragment extends Fragment{
     @BindView(R.id.piechart) PieChart pieChart;
 
     View mView;
-    String sample;
-    String[] arr1;
+    private DatabaseReference d_csk,d_kkr,d_dd,d_kxip,d_mi,d_rcb,d_rr,d_srh;
+    private static int csk,kkr,dd,kxip,mi,rcb,rr,srh;
+    private static int sum=0;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.leader_boards,container,false);
         ButterKnife.bind(this,mView);
 
+        d_csk = FirebaseDatabase.getInstance().getReference("leader_board/csk");
+        d_csk.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                 csk= dataSnapshot.getValue(Integer.class);
+                 sum+=1;
+                 if(sum >= 8)
+                     initialize_graph();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        
+        d_kkr = FirebaseDatabase.getInstance().getReference("leader_board/kkr");
+        d_kkr.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                kkr = dataSnapshot.getValue(Integer.class);
+                sum+=1;
+                if(sum >= 8)
+                    initialize_graph();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        d_dd = FirebaseDatabase.getInstance().getReference("leader_board/dd");
+        d_dd.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dd = dataSnapshot.getValue(Integer.class);
+                sum+=1;
+                if(sum >= 8)
+                    initialize_graph();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        d_kxip = FirebaseDatabase.getInstance().getReference("leader_board/kxip");
+        d_kxip.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                kxip = dataSnapshot.getValue(Integer.class);
+                sum+=1;
+                if(sum >= 8)
+                    initialize_graph();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        d_mi = FirebaseDatabase.getInstance().getReference("leader_board/mi");
+        d_mi.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mi = dataSnapshot.getValue(Integer.class);
+                sum+=1;
+                if(sum >= 8)
+                    initialize_graph();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        d_rcb = FirebaseDatabase.getInstance().getReference("leader_board/rcb");
+        d_rcb.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                rcb = dataSnapshot.getValue(Integer.class);
+                sum+=1;
+                if(sum >= 8)
+                    initialize_graph();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        d_rr = FirebaseDatabase.getInstance().getReference("leader_board/rr");
+        d_rr.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                rr = dataSnapshot.getValue(Integer.class);
+                sum+=1;
+                if(sum >= 8)
+                    initialize_graph();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        d_srh = FirebaseDatabase.getInstance().getReference("leader_board/srh");
+        d_srh.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                srh = dataSnapshot.getValue(Integer.class);
+                sum+=1;
+                if(sum >= 8)
+                    initialize_graph();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return mView;
+    }
+    
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void initialize_graph(){
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
         pieChart.setExtraOffsets(5,10,5,5);
@@ -55,14 +194,14 @@ public class LeaderBoardsFragment extends Fragment{
 
         ArrayList<PieEntry> yValues=new ArrayList<>();
 
-        yValues.add(new PieEntry(34,"CSK"));
-        yValues.add(new PieEntry(23,"RCB"));
-        yValues.add(new PieEntry(15,"SRH"));
-        yValues.add(new PieEntry(40,"RR"));
-        yValues.add(new PieEntry(50,"KKR"));
-        yValues.add(new PieEntry(9,"MI"));
-        yValues.add(new PieEntry(33,"DD"));
-        yValues.add(new PieEntry(51,"KXIP"));
+        yValues.add(new PieEntry(csk,"CSK"));
+        yValues.add(new PieEntry(rcb,"RCB"));
+        yValues.add(new PieEntry(srh,"SRH"));
+        yValues.add(new PieEntry(rr,"RR"));
+        yValues.add(new PieEntry(kkr,"KKR"));
+        yValues.add(new PieEntry(mi,"MI"));
+        yValues.add(new PieEntry(dd,"DD"));
+        yValues.add(new PieEntry(kxip,"KXIP"));
 
         pieChart.animateY(1000, Easing.EasingOption.EaseInOutExpo);
 
@@ -77,6 +216,5 @@ public class LeaderBoardsFragment extends Fragment{
         data.setValueTextSize(10f);
 
         pieChart.setData(data);
-        return mView;
     }
 }

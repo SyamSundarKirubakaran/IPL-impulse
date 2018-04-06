@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -341,6 +342,11 @@ public class MainActivity extends AppCompatActivity
 //        PrimaryWrite primaryWrite=new PrimaryWrite(currentUser.getUid(),currentUser.getPhoneNumber(),"NA","NA","1000","0");
 //        databaseReference.child("user").child(currentUser.getUid()).setValue(primaryWrite);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("shared",MODE_PRIVATE);
+        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("user_name").setValue(sharedPreferences.getString("name_int",currentUser.getUid()));
+        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(sharedPreferences.getString("team_str","CSK"));
+
+
 //        Toast.makeText(MainActivity.this,currentUser.getPhoneNumber(),Toast.LENGTH_LONG).show();
         d_stadium= FirebaseDatabase.getInstance().getReference("stadium");
 
@@ -640,7 +646,7 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         } else if (id == R.id.leader) {
             if (getSupportActionBar() != null)
-                getSupportActionBar().setTitle("Leader Boards");
+                getSupportActionBar().setTitle("Fan Graph");
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new LeaderBoardsFragment())
                     .commit();

@@ -26,7 +26,7 @@
                 <item
                     android:id="@+id/leader"
                     android:icon="@drawable/ic_multiline_chart_black_24dp"
-                    android:title="Leader Boards" />
+                    android:title="Fan Graph" />
                 <item
                     android:id="@+id/history"
                     android:icon="@drawable/ic_poll_black_24dp"

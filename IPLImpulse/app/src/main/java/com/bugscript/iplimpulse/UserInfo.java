@@ -1,5 +1,6 @@
 package com.bugscript.iplimpulse;
 
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class UserInfo extends AppCompatActivity {
 
     public String[] teams = {"CSK", "RCB", "MI", "KXIP", "KKR", "DD", "RR", "SRH"};
     private DatabaseReference databaseReference;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,9 @@ public class UserInfo extends AppCompatActivity {
                                 databaseReference= FirebaseDatabase.getInstance().getReference();
                                 databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("user_name").setValue(u_name_confirmed);
                                 databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(home_team);
+                                sp= getSharedPreferences("shared",MODE_PRIVATE);
+                                sp.edit().putString("name_int",u_name_confirmed).commit();
+                                sp.edit().putString("team_str",home_team).commit();
                                 finish();
                             }
                         }).show();
