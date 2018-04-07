@@ -309,6 +309,8 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference d_team2;
     private DatabaseReference ar_img_1,ar_img_2,arVal1,arVal2,user_name_reference, support_team_reference, points_reference;
     private DatabaseReference avg_vote,page_hits, check, win;
+    private DatabaseReference d_points,d_rank;
+    public static String points_str,rank_str;
     public static String ar_img_1_string = "nothing", ar_img_2_string = "nothing", ar_val_1_str, ar_val_2_str;
     public static String current_support_team,current_points,current_user_name;
     public static String t1,t2;
@@ -367,6 +369,8 @@ public class MainActivity extends AppCompatActivity
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(sharedPreferences.getString("team_str","CSK"));
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("bet").setValue(sharedPreferences.getString("bet_str","0"));
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("bet_team").setValue(sharedPreferences.getString("bet_team_str","NA"));
+        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("points").setValue(sharedPreferences.getString("points_str","1000"));
+        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("rank").setValue(sharedPreferences.getString("rank_str","0"));
 
 
 //        Toast.makeText(MainActivity.this,currentUser.getPhoneNumber(),Toast.LENGTH_LONG).show();
@@ -614,6 +618,38 @@ public class MainActivity extends AppCompatActivity
                 if(check_flag && win_flag && current_flag){
                     UpdatePoints();
                 }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        d_points = FirebaseDatabase.getInstance().getReference("user/"+currentUser.getUid()+"/points");
+        d_points.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                points_str = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,page_hits+"",Toast.LENGTH_LONG).show();
+                SharedPreferences sp = getSharedPreferences("shared", MODE_PRIVATE);
+                sp.edit().putString("points_str", points_str).commit();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        d_rank = FirebaseDatabase.getInstance().getReference("user/"+currentUser.getUid()+"/rank");
+        d_rank.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                rank_str = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,page_hits+"",Toast.LENGTH_LONG).show();
+                SharedPreferences sp = getSharedPreferences("shared", MODE_PRIVATE);
+                sp.edit().putString("rank_str", rank_str).commit();
             }
 
             @Override

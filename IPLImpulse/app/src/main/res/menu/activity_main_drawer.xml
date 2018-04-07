@@ -24,6 +24,10 @@
         <item android:title="Statistics">
             <menu>
                 <item
+                    android:id="@+id/leader_match"
+                    android:icon="@drawable/ic_equalizer_black_24dp"
+                    android:title="Match Graph" />
+                <item
                     android:id="@+id/leader"
                     android:icon="@drawable/ic_multiline_chart_black_24dp"
                     android:title="Fan Graph" />
