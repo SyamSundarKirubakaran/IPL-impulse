@@ -17,6 +17,7 @@ import com.bugscript.iplimpulse.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.lang.reflect.Field;
 import java.security.PrivateKey;
 
 import butterknife.BindView;
@@ -50,6 +51,22 @@ public class ScheduleFragment extends Fragment{
         databaseReference.child("schedule").child("page_hits").setValue(sample);
 
         return mView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

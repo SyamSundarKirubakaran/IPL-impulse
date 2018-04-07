@@ -18,6 +18,8 @@ import com.bugscript.iplimpulse.R;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Field;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -42,7 +44,7 @@ public class UpcomingFragment extends Fragment{
         ButterKnife.bind(this,mView);
         ma.setText(MainActivity.current_upcoming);
         sta.setText(MainActivity.current_stadium);
-        be.setText(MainActivity.current_bet_on);
+        be.setText(MainActivity.current_bet_on.toUpperCase());
         if(MainActivity.flag_3==1){
             switch (MainActivity.ar_img_1_string){
                 case "up":
@@ -132,5 +134,21 @@ public class UpcomingFragment extends Fragment{
             }
         }
         return mView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.bugscript.iplimpulse.R;
 
+import java.lang.reflect.Field;
+
 public class HistoryFragment extends Fragment{
 
     View mView;
@@ -18,5 +20,21 @@ public class HistoryFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.history,container,false);
         return mView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

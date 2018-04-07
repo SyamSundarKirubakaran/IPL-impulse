@@ -28,6 +28,7 @@ import com.bugscript.iplimpulse.fragments.ProfileFragment;
 import com.bugscript.iplimpulse.fragments.RulesFragment;
 import com.bugscript.iplimpulse.fragments.ScheduleFragment;
 import com.bugscript.iplimpulse.fragments.UpcomingFragment;
+import com.bugscript.iplimpulse.groups.GroupsActivity;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -304,10 +305,11 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference d_team1;
     private DatabaseReference d_team2;
     private DatabaseReference ar_img_1,ar_img_2,arVal1,arVal2,user_name_reference, support_team_reference, points_reference;
-    private DatabaseReference avg_vote,page_hits;
+    private DatabaseReference avg_vote,page_hits, check, win;
     public static String ar_img_1_string = "nothing", ar_img_2_string = "nothing", ar_val_1_str, ar_val_2_str;
     public static String current_support_team,current_points,current_user_name;
     public static String t1,t2;
+    public static String check_str,win_str;
     public static String avg_votes_str;
     public static String page_hits_str;
     public static String current_stadium="fetching..";
@@ -319,6 +321,7 @@ public class MainActivity extends AppCompatActivity
     public static int flag_2=0;
     public static int flag_3=0;
     public static int flag_4=0;
+    public static boolean check_flag=false,win_flag=false, current_flag=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -393,6 +396,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 current_bet_on = dataSnapshot.getValue(String.class);
+                current_flag=true;
 //                Toast.makeText(MainActivity.this,current_bet_on+"",Toast.LENGTH_LONG).show();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_frame,new UpcomingFragment())
@@ -569,6 +573,42 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        check = FirebaseDatabase.getInstance().getReference("enable/check");
+        check.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                check_str = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,page_hits+"",Toast.LENGTH_LONG).show();
+                check_flag=true;
+                if(check_flag && win_flag && current_flag){
+                    UpdatePoints();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        win = FirebaseDatabase.getInstance().getReference("schedule/win");
+        win.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                win_str = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,page_hits+"",Toast.LENGTH_LONG).show();
+                win_flag=true;
+                if(check_flag && win_flag && current_flag){
+                    UpdatePoints();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         TextView navPhone = (TextView) headerView.findViewById(R.id.textView);
         navPhone.setText(currentUser.getPhoneNumber());
 
@@ -598,6 +638,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void UpdatePoints() {
+//        if(check_str.equals("1") && win_str.equals(current_bet_on)){
+            databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("points").setValue("1080");
+//        }
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -605,7 +651,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setMessage("Are you sure you want to Quit?");
+            builder.setMessage("Are you sure you want to quit?");
             builder.setCancelable(true);
             builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                 @Override
@@ -670,9 +716,8 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.main_frame, new ScheduleFragment())
                     .commitAllowingStateLoss();
         } else if (id == R.id.nav_groups) {
-            if (getSupportActionBar() != null)
-                getSupportActionBar().setTitle("Groups");
-
+            Intent i = new Intent(MainActivity.this, GroupsActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_pro) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Profile");
@@ -691,11 +736,6 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new HistoryFragment())
                     .commitAllowingStateLoss();
-        } else if (id == R.id.logout) {
-            if (currentUser != null) {
-                mAuth.signOut();
-                finish();
-            }
         } else if (id == R.id.rule){
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Rule Book");

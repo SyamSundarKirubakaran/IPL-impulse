@@ -13,6 +13,8 @@ import com.bugscript.iplimpulse.R;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Field;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -35,5 +37,21 @@ public class ProfileFragment extends Fragment{
         team_sup.setText(MainActivity.current_support_team);
         points.setText(MainActivity.current_points);
         return mView;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -35,10 +35,12 @@
             android:name=".UserInfo"
             android:label="User Information"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".bet.BetActivity"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
+        <activity
+            android:name=".bet.BetActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".groups.GroupsActivity"
+            android:label="Groups"
+            android:parentActivityName=".MainActivity"></activity>
     </application>
 
 </manifest>
