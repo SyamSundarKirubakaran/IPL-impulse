@@ -21,6 +21,9 @@
             android:icon="@drawable/ic_person_black_24dp"
             android:title="Profile" />
 
+    </group>
+    <group android:checkableBehavior="single">
+
         <item android:title="Utils">
             <menu>
                 <item

@@ -71,7 +71,7 @@ public class UpcomingFragment extends Fragment{
             ar_val_1.setTextColor(Color.RED);
         }
         if(MainActivity.ar_img_2_string.equals("up")){
-            ar_val_1.setTextColor(Color.parseColor("#4CAF50"));
+            ar_val_2.setTextColor(Color.parseColor("#4CAF50"));
         }else{
             ar_val_2.setTextColor(Color.RED);
         }

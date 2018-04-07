@@ -28,6 +28,7 @@ import com.bugscript.iplimpulse.bet.BetActivity;
 import com.bugscript.iplimpulse.fragments.GroupFragment;
 import com.bugscript.iplimpulse.fragments.HistoryFragment;
 import com.bugscript.iplimpulse.fragments.LeaderBoardsFragment;
+import com.bugscript.iplimpulse.fragments.MatchGraphFragment;
 import com.bugscript.iplimpulse.fragments.ProfileFragment;
 import com.bugscript.iplimpulse.fragments.RulesFragment;
 import com.bugscript.iplimpulse.fragments.ScheduleFragment;
@@ -340,6 +341,9 @@ public class MainActivity extends AppCompatActivity
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startMain);
         }
+
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle("Up coming");
 
         NavigationView navigation = (NavigationView) findViewById(R.id.nav_view);
         final View headerView = navigation.getHeaderView(0);
@@ -816,6 +820,12 @@ public class MainActivity extends AppCompatActivity
                 getSupportActionBar().setTitle("Rule Book");
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new RulesFragment())
+                    .commitAllowingStateLoss();
+        } else if ( id == R.id.leader_match){
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Match Support Graph");
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame, new MatchGraphFragment())
                     .commitAllowingStateLoss();
         }
 //        else if(id == R.id.logout){

@@ -26,7 +26,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="* Bets are considered only if placed before the match\n starts. The moment the match commences the bets will be closed.
-\n* You get 1000 points as credentials when you sign up.\n* If the team that you placed the bet on wins the match
+\n* You get 100 points as credentials when you sign up.\n* If the team that you placed the bet on wins the match
 you get twice the amount of bet points that you've placed as bet, if not you do not lose or gain any points. \n* You can only bet on one team at a time.\n* Inviting your friends shall make the bet even more fun,\n since leader boards will be generated once the match\n comes to an end.\n
 * Ranks may be generated based on the user's activity in the app and their consistency in betting and ranks are not purly based on points."
         app:layout_constraintEnd_toEndOf="parent"

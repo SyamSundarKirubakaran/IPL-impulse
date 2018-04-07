@@ -21,6 +21,7 @@
             android:name=".MatchDetails"
             android:label="@string/title_activity_match_details"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".authentication.PhoneAuthActivity"
@@ -34,9 +35,11 @@
         <activity
             android:name=".UserInfo"
             android:label="User Information"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".bet.BetActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"></activity>
     </application>
 
