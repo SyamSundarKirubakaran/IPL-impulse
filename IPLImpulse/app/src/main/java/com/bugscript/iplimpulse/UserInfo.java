@@ -40,15 +40,19 @@ public class UserInfo extends AppCompatActivity {
                         .setAction("Yes", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String u_name_confirmed = u_name.getText().toString().trim();
-                                String home_team = spinner.getSelectedItem().toString();
-                                databaseReference= FirebaseDatabase.getInstance().getReference();
-                                databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("user_name").setValue(u_name_confirmed);
-                                databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(home_team);
-                                sp= getSharedPreferences("shared",MODE_PRIVATE);
-                                sp.edit().putString("name_int",u_name_confirmed).commit();
-                                sp.edit().putString("team_str",home_team).commit();
-                                finish();
+                                if(!(u_name.getText().toString().equals(""))) {
+                                    String u_name_confirmed = u_name.getText().toString().trim();
+                                    String home_team = spinner.getSelectedItem().toString();
+                                    databaseReference = FirebaseDatabase.getInstance().getReference();
+                                    databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("user_name").setValue(u_name_confirmed);
+                                    databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(home_team);
+                                    sp = getSharedPreferences("shared", MODE_PRIVATE);
+                                    sp.edit().putString("name_int", u_name_confirmed).commit();
+                                    sp.edit().putString("team_str", home_team).commit();
+                                    finish();
+                                }else{
+                                    Toast.makeText(UserInfo.this,"Invalid Info",Toast.LENGTH_LONG).show();
+                                }
                             }
                         }).show();
             }
