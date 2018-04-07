@@ -374,7 +374,7 @@ public class PhoneAuthActivity extends AppCompatActivity implements
             databaseReference= FirebaseDatabase.getInstance().getReference();
             mAuthu = FirebaseAuth.getInstance();
             cUser = mAuthu.getCurrentUser();
-            PrimaryWrite primaryWrite=new PrimaryWrite(cUser.getUid(),cUser.getPhoneNumber(),"NA","NA","1000","0","0");
+            PrimaryWrite primaryWrite=new PrimaryWrite("a_"+Math.random()*100,cUser.getPhoneNumber(),"NA","NA","1000","0","0");
             databaseReference.child("user").child(cUser.getUid()).setValue(primaryWrite);
             mPhoneNumberField.setText("");
             Intent i =new Intent(PhoneAuthActivity.this, MainActivity.class);

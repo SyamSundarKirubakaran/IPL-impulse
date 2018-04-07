@@ -45,7 +45,7 @@ public class ScheduleFragment extends Fragment{
         int increment_counter = Integer.parseInt(MainActivity.page_hits_str);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        increment_counter+=5;
+        increment_counter+=1;
         String sample = Integer.toString(increment_counter);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("schedule").child("page_hits").setValue(sample);

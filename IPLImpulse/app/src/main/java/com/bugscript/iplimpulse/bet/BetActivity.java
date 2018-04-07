@@ -115,7 +115,6 @@ public class BetActivity extends AppCompatActivity {
                         .setAction("Yes", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(BetActivity.this,"Bet Confirmed.!",Toast.LENGTH_LONG).show();
                                 String bet_amount_sum = bet_point_spinner.getSelectedItem().toString();
                                 databaseReference = FirebaseDatabase.getInstance().getReference();
                                 databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("bet_team").setValue(selected_team_for_bet);
@@ -123,6 +122,10 @@ public class BetActivity extends AppCompatActivity {
                                 sp= getSharedPreferences("shared",MODE_PRIVATE);
                                 sp.edit().putString("bet_str",bet_amount_sum).commit();
                                 sp.edit().putString("bet_team_str",selected_team_for_bet).commit();
+                                if(selected_team_for_bet.equals("NA"))
+                                    Toast.makeText(BetActivity.this,"Seems you don't want to bet today.. Not selected any team.!",Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(BetActivity.this,"Bet Confirmed.!",Toast.LENGTH_LONG).show();
                             }
                         }).show();
             }

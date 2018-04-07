@@ -25,14 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bugscript.iplimpulse.bet.BetActivity;
+import com.bugscript.iplimpulse.fragments.GroupFragment;
 import com.bugscript.iplimpulse.fragments.HistoryFragment;
 import com.bugscript.iplimpulse.fragments.LeaderBoardsFragment;
 import com.bugscript.iplimpulse.fragments.ProfileFragment;
 import com.bugscript.iplimpulse.fragments.RulesFragment;
 import com.bugscript.iplimpulse.fragments.ScheduleFragment;
 import com.bugscript.iplimpulse.fragments.UpcomingFragment;
-import com.bugscript.iplimpulse.groups.GroupsActivity;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,9 +39,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -309,8 +305,8 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference d_team2;
     private DatabaseReference ar_img_1,ar_img_2,arVal1,arVal2,user_name_reference, support_team_reference, points_reference;
     private DatabaseReference avg_vote,page_hits, check, win;
-    private DatabaseReference d_points,d_rank;
-    public static String points_str,rank_str;
+    private DatabaseReference d_points,d_rank, d_open;
+    public static String points_str,rank_str, open_str;
     public static String ar_img_1_string = "nothing", ar_img_2_string = "nothing", ar_val_1_str, ar_val_2_str;
     public static String current_support_team,current_points,current_user_name;
     public static String t1,t2;
@@ -322,11 +318,13 @@ public class MainActivity extends AppCompatActivity
     public static String current_bet_on="fetching..";
     private ProgressDialog progress;
 
+    private SharedPreferences sharedPreferences;
+
     public static int flag_1=0;
     public static int flag_2=0;
     public static int flag_3=0;
     public static int flag_4=0;
-    public static boolean check_flag=false,win_flag=false, current_flag=false;
+    public static int check_flag=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -364,7 +362,7 @@ public class MainActivity extends AppCompatActivity
 //        PrimaryWrite primaryWrite=new PrimaryWrite(currentUser.getUid(),currentUser.getPhoneNumber(),"NA","NA","1000","0");
 //        databaseReference.child("user").child(currentUser.getUid()).setValue(primaryWrite);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("shared",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("shared",MODE_PRIVATE);
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("user_name").setValue(sharedPreferences.getString("name_int",currentUser.getUid()));
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(sharedPreferences.getString("team_str","CSK"));
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("bet").setValue(sharedPreferences.getString("bet_str","0"));
@@ -413,8 +411,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 current_bet_on = dataSnapshot.getValue(String.class);
-                current_flag=true;
+                check_flag+=1;
 //                Toast.makeText(MainActivity.this,current_bet_on+"",Toast.LENGTH_LONG).show();
+                if(check_flag>=3)
+                    UpdatePoints();
                 fragmentManager.beginTransaction()
                         .replace(R.id.main_frame,new UpcomingFragment())
                         .commitAllowingStateLoss();
@@ -596,10 +596,9 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 check_str = dataSnapshot.getValue(String.class);
 //                Toast.makeText(MainActivity.this,page_hits+"",Toast.LENGTH_LONG).show();
-                check_flag=true;
-                if(check_flag && win_flag && current_flag){
+                check_flag+=1;
+                if(check_flag>=3)
                     UpdatePoints();
-                }
             }
 
             @Override
@@ -608,16 +607,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        win = FirebaseDatabase.getInstance().getReference("schedule/win");
+        win = FirebaseDatabase.getInstance().getReference("enable/win");
         win.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 win_str = dataSnapshot.getValue(String.class);
 //                Toast.makeText(MainActivity.this,page_hits+"",Toast.LENGTH_LONG).show();
-                win_flag=true;
-                if(check_flag && win_flag && current_flag){
+                check_flag+=1;
+                if(check_flag>=3)
                     UpdatePoints();
-                }
             }
 
             @Override
@@ -658,6 +656,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        d_open = FirebaseDatabase.getInstance().getReference("open");
+        d_open.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                open_str = dataSnapshot.getValue(String.class);
+//                Toast.makeText(MainActivity.this,page_hits+"",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         TextView navPhone = (TextView) headerView.findViewById(R.id.textView);
         navPhone.setText(currentUser.getPhoneNumber());
 
@@ -670,8 +682,12 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Yes", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent i = new Intent(MainActivity.this, BetActivity.class);
-                                startActivity(i);
+                                if(open_str.equals("1")) {
+                                    Intent i = new Intent(MainActivity.this, BetActivity.class);
+                                    startActivity(i);
+                                }else{
+                                    Toast.makeText(MainActivity.this,"Sorry, we are closed for today, the match has already started.!",Toast.LENGTH_LONG).show();
+                                }
                             }
                         }).show();
             }
@@ -688,9 +704,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void UpdatePoints() {
-//        if(check_str.equals("1") && win_str.equals(current_bet_on)){
-            databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("points").setValue("1080");
-//        }
+        if(check_flag>=3) {
+            if (check_str.equals("1") && win_str.equals(current_bet_on)) {
+                String bet_amo = sharedPreferences.getString("bet_str","0");
+                int bet_int = Integer.parseInt(bet_amo)*2;
+                String point_amo = sharedPreferences.getString("points_str","1000");
+                int point_int = Integer.parseInt(point_amo) + bet_int;
+                String final_val = Integer.toString(point_int);
+                databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("points").setValue(final_val);
+            }
+        }
     }
 
     @Override
@@ -765,8 +788,11 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.main_frame, new ScheduleFragment())
                     .commitAllowingStateLoss();
         } else if (id == R.id.nav_groups) {
-            Intent i = new Intent(MainActivity.this, GroupsActivity.class);
-            startActivity(i);
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle("Groups");
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main_frame, new GroupFragment())
+                    .commitAllowingStateLoss();
         } else if (id == R.id.nav_pro) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setTitle("Profile");
@@ -792,6 +818,9 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.main_frame, new RulesFragment())
                     .commitAllowingStateLoss();
         }
+//        else if(id == R.id.logout){
+//            mAuth.signOut();
+//        }
 //        Toast.makeText(MainActivity.this,currentUser.getUid()+"",Toast.LENGTH_LONG).show();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

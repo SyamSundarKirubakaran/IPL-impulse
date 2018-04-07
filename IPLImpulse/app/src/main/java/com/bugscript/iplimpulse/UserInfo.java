@@ -51,7 +51,7 @@ public class UserInfo extends AppCompatActivity {
                                     sp.edit().putString("team_str", home_team).commit();
                                     finish();
                                 }else{
-                                    Toast.makeText(UserInfo.this,"Invalid Info",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(UserInfo.this,"Invalid Info.!",Toast.LENGTH_LONG).show();
                                 }
                             }
                         }).show();

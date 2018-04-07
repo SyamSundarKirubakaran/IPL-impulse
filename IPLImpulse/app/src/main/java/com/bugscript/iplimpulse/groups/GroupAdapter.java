@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bugscript.iplimpulse.MainActivity;
 import com.bugscript.iplimpulse.MatchDetails;
 import com.bugscript.iplimpulse.R;
+import com.bugscript.iplimpulse.fragments.GroupFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,13 +33,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.group_name.setText(GroupsActivity.val_name[position]);
-        holder.pts.setText(GroupsActivity.val_points[position]);
+        holder.group_name.setText(GroupFragment.val_name[position]);
+        holder.pts.setText(GroupFragment.val_points[position]);
     }
 
     @Override
     public int getItemCount() {
-        return GroupsActivity.pp[0];
+        return GroupFragment.pp[0];
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

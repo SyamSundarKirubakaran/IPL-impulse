@@ -17,18 +17,29 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="264dp"
+            android:layout_height="242dp"
             android:contentDescription="@string/desc_firebase_lockup"
             android:src="@drawable/ipl" />
 
         <TextView
             android:id="@+id/welcome"
-            android:textColor="#FFFFFF"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
-            android:text="Let's get you verified first" />
+            android:layout_height="wrap_content"
+            android:text="Let's get you verified first"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textColor="#FFFFFF" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Once logged-in, please change your user name under\n Settings.\nYou'll be receiving a OTP now.!"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:id="@+id/impo_note_2"/>
 
         <TextView
             android:id="@+id/status"

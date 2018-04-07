@@ -21,6 +21,15 @@
             android:icon="@drawable/ic_person_black_24dp"
             android:title="Profile" />
 
+        <item android:title="Utils">
+            <menu>
+                <item
+                    android:id="@+id/rule"
+                    android:icon="@drawable/rules"
+                    android:title="Rule Book" />
+            </menu>
+        </item>
+
         <item android:title="Statistics">
             <menu>
                 <item
@@ -35,14 +44,6 @@
                     android:id="@+id/history"
                     android:icon="@drawable/ic_poll_black_24dp"
                     android:title="Betting History" />
-            </menu>
-        </item>
-        <item android:title="Utils">
-            <menu>
-                <item
-                    android:id="@+id/rule"
-                    android:icon="@drawable/rules"
-                    android:title="Rule Book" />
             </menu>
         </item>
     </group>
