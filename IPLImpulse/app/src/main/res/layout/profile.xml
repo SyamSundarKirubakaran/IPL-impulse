@@ -37,7 +37,7 @@
         android:layout_marginBottom="335dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Syam Sundar K"
+        android:text="User Name"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:text="+91 9790374010"
+        android:text="XXXX"
         app:layout_constraintStart_toStartOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="@+id/textView10" />
 
@@ -85,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:text="Chennai Super Kings"
+        android:text="XXXX"
         app:layout_constraintStart_toStartOf="@+id/textView12"
         app:layout_constraintTop_toTopOf="@+id/textView12" />
 
@@ -108,7 +108,7 @@
         android:layout_marginBottom="97dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="10K"
+        android:text="0"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
         android:textColor="@color/green"
         android:textSize="50dp"

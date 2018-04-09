@@ -46,7 +46,6 @@ public class MatchGraphFragment extends Fragment{
 
         dd_v1 = FirebaseDatabase.getInstance().getReference("clash_graph/v1");
         dd_v1.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                  ff_v1= dataSnapshot.getValue(Integer.class);
@@ -63,7 +62,6 @@ public class MatchGraphFragment extends Fragment{
         
         dd_v2 = FirebaseDatabase.getInstance().getReference("clash_graph/v2");
         dd_v2.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ff_v2 = dataSnapshot.getValue(Integer.class);
@@ -80,7 +78,6 @@ public class MatchGraphFragment extends Fragment{
 
         dd_t1 = FirebaseDatabase.getInstance().getReference("clash_graph/t1");
         dd_t1.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ff_t1 = dataSnapshot.getValue(String.class);
@@ -97,7 +94,6 @@ public class MatchGraphFragment extends Fragment{
 
         dd_t2 = FirebaseDatabase.getInstance().getReference("clash_graph/t2");
         dd_t2.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ff_t2 = dataSnapshot.getValue(String.class);
@@ -114,8 +110,7 @@ public class MatchGraphFragment extends Fragment{
 
         return mView;
     }
-    
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     public void initialize_graph(){
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);

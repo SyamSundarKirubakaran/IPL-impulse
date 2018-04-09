@@ -336,10 +336,6 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(MainActivity.this,"Please check your network.!",Toast.LENGTH_LONG).show();
             if(progress!=null)
                 progress.dismiss();
-            Intent startMain = new Intent(Intent.ACTION_MAIN);
-            startMain.addCategory(Intent.CATEGORY_HOME);
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(startMain);
         }
 
         if (getSupportActionBar() != null)
@@ -367,11 +363,11 @@ public class MainActivity extends AppCompatActivity
 //        databaseReference.child("user").child(currentUser.getUid()).setValue(primaryWrite);
 
         sharedPreferences = getSharedPreferences("shared",MODE_PRIVATE);
-        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("user_name").setValue(sharedPreferences.getString("name_int",currentUser.getUid()));
-        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(sharedPreferences.getString("team_str","CSK"));
+        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("user_name").setValue(sharedPreferences.getString("name_int","a_"+Math.random()+""));
+        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(sharedPreferences.getString("team_str","NA"));
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("bet").setValue(sharedPreferences.getString("bet_str","0"));
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("bet_team").setValue(sharedPreferences.getString("bet_team_str","NA"));
-        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("points").setValue(sharedPreferences.getString("points_str","1000"));
+        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("points").setValue(sharedPreferences.getString("points_str","100"));
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("rank").setValue(sharedPreferences.getString("rank_str","0"));
 
 
@@ -767,6 +763,15 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             Intent i =new Intent(MainActivity.this,UserInfo.class);
             startActivity(i);
+        }  else if(id == R.id.action_share){
+            Intent i=new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            String shareSub="Get IPL Impulse app from Play Store";
+            String shareBody="Support your favorite IPL team and make your favorite team's fan base even more larger. I'm supporting for "+current_support_team+". Let me see which team you're supporting for, in this IPL - IPL 2018 through IPL Impulse App. \n\nGet the app now from Play Store.\nLink : https://play.google.com/store/apps/details?id=com.bugscript.iplimpulse\n\n"+current_user_name;
+            i.putExtra(Intent.EXTRA_SUBJECT,shareSub);
+            i.putExtra(Intent.EXTRA_TEXT,shareBody);
+            startActivity(Intent.createChooser(i,"Share with:"));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

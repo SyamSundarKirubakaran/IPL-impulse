@@ -1,6 +1,9 @@
 package com.bugscript.iplimpulse.fragments;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,7 +33,6 @@ public class ScheduleFragment extends Fragment{
     View mView;
     private DatabaseReference databaseReference;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -42,13 +44,15 @@ public class ScheduleFragment extends Fragment{
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(scheduleAdapter);
 
-        int increment_counter = Integer.parseInt(MainActivity.page_hits_str);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        increment_counter+=1;
-        String sample = Integer.toString(increment_counter);
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("schedule").child("page_hits").setValue(sample);
+        if(isNetworkAvailable()) {
+            int increment_counter = Integer.parseInt(MainActivity.page_hits_str);
+            databaseReference = FirebaseDatabase.getInstance().getReference();
+            increment_counter += 1;
+            String sample = Integer.toString(increment_counter);
+            databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child("schedule").child("page_hits").setValue(sample);
+        }
 
         return mView;
     }
@@ -68,5 +72,13 @@ public class ScheduleFragment extends Fragment{
             throw new RuntimeException(e);
         }
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 
 }

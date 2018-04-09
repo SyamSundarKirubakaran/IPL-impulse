@@ -1,6 +1,7 @@
 package com.bugscript.iplimpulse.fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bugscript.iplimpulse.MainActivity;
 import com.bugscript.iplimpulse.R;
@@ -42,6 +44,7 @@ public class GroupFragment extends Fragment {
     public static String rank_now;
     public static int[] pp = new int[1];
     private static int i=0;
+    private ProgressDialog progress;
 
     View mView;
 
@@ -49,9 +52,13 @@ public class GroupFragment extends Fragment {
         mView = inflater.inflate(R.layout.group_fragment, container, false);
         ButterKnife.bind(this, mView);
 
+
+        progress=new ProgressDialog(getActivity());
+        progress.setMessage("Fetching..");
+        progress.show();
+
         group_name = FirebaseDatabase.getInstance().getReference("user");
         group_name.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 pp[0] = (int) dataSnapshot.getChildrenCount();
@@ -69,7 +76,8 @@ public class GroupFragment extends Fragment {
                         i += 1;
                     }
                 }
-                GroupAdapter groupAdapter = new GroupAdapter(getContext());
+                progress.dismiss();
+                GroupAdapter groupAdapter = new GroupAdapter(getActivity());
                 StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, LinearLayoutManager.VERTICAL);
                 recycler.setLayoutManager(staggeredGridLayoutManager);
                 recycler.setAdapter(groupAdapter);

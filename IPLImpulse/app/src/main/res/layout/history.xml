@@ -37,7 +37,7 @@
         android:layout_marginBottom="171dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:text="We'll have to deal with balancing work loads on the server side. We promise to have this feature by the next app update. Fingers Crossed.!"
+        android:text="We'll have to deal with balancing work loads on server side. We promise to have this feature by the next app update. Fingers Crossed.!"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="15dp"

@@ -50,7 +50,6 @@ public class UserInfo extends AppCompatActivity {
                                     sp.edit().putString("name_int", u_name_confirmed).commit();
                                     sp.edit().putString("team_str", home_team).commit();
                                     Toast.makeText(UserInfo.this,"User Info Updated.!",Toast.LENGTH_LONG).show();
-                                    finish();
                                 }else{
                                     Toast.makeText(UserInfo.this,"Invalid Info.!",Toast.LENGTH_LONG).show();
                                 }

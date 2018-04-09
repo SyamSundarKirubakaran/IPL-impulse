@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="Once logged-in, please change your user name under\n Settings.\nYou'll be receiving a OTP now.!"
+            android:text="Once logged-in, please change your user name and\n fix your Home team.\nPlease stay connected to the Internet\nYou'll be receiving an OTP now.!"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:id="@+id/impo_note_2"/>

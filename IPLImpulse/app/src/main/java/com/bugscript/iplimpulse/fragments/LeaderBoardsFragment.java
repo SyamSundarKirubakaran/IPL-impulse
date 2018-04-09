@@ -51,7 +51,6 @@ public class LeaderBoardsFragment extends Fragment{
 
         d_csk = FirebaseDatabase.getInstance().getReference("leader_board/csk");
         d_csk.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                  csk= dataSnapshot.getValue(Integer.class);
@@ -68,7 +67,6 @@ public class LeaderBoardsFragment extends Fragment{
         
         d_kkr = FirebaseDatabase.getInstance().getReference("leader_board/kkr");
         d_kkr.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 kkr = dataSnapshot.getValue(Integer.class);
@@ -84,7 +82,6 @@ public class LeaderBoardsFragment extends Fragment{
         });
         d_dd = FirebaseDatabase.getInstance().getReference("leader_board/dd");
         d_dd.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 dd = dataSnapshot.getValue(Integer.class);
@@ -100,7 +97,6 @@ public class LeaderBoardsFragment extends Fragment{
         });
         d_kxip = FirebaseDatabase.getInstance().getReference("leader_board/kxip");
         d_kxip.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 kxip = dataSnapshot.getValue(Integer.class);
@@ -116,7 +112,6 @@ public class LeaderBoardsFragment extends Fragment{
         });
         d_mi = FirebaseDatabase.getInstance().getReference("leader_board/mi");
         d_mi.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mi = dataSnapshot.getValue(Integer.class);
@@ -132,7 +127,6 @@ public class LeaderBoardsFragment extends Fragment{
         });
         d_rcb = FirebaseDatabase.getInstance().getReference("leader_board/rcb");
         d_rcb.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 rcb = dataSnapshot.getValue(Integer.class);
@@ -148,7 +142,6 @@ public class LeaderBoardsFragment extends Fragment{
         });
         d_rr = FirebaseDatabase.getInstance().getReference("leader_board/rr");
         d_rr.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 rr = dataSnapshot.getValue(Integer.class);
@@ -164,7 +157,6 @@ public class LeaderBoardsFragment extends Fragment{
         });
         d_srh = FirebaseDatabase.getInstance().getReference("leader_board/srh");
         d_srh.addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 srh = dataSnapshot.getValue(Integer.class);
@@ -180,8 +172,7 @@ public class LeaderBoardsFragment extends Fragment{
         });
         return mView;
     }
-    
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     public void initialize_graph(){
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);

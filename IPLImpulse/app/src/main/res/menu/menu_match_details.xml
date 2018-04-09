@@ -2,9 +2,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.bugscript.iplimpulse.MatchDetails">
+
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="Share"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
+        android:icon="@drawable/person_white"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>
