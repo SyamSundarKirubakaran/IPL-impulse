@@ -3,6 +3,7 @@ package com.bugscript.iplimpulse.authentication;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -371,14 +372,25 @@ public class PhoneAuthActivity extends AppCompatActivity implements
 //            mDetailText.setText(getString(R.string.firebase_status_fmt, user.getUid()));
             if(progress!=null)
                 progress.dismiss();
-            databaseReference= FirebaseDatabase.getInstance().getReference();
-            mAuthu = FirebaseAuth.getInstance();
-            cUser = mAuthu.getCurrentUser();
-            PrimaryWrite primaryWrite=new PrimaryWrite("a_"+Math.random()+"",cUser.getPhoneNumber(),"NA","NA","100","0","0");
-            databaseReference.child("user").child(cUser.getUid()).setValue(primaryWrite);
-            mPhoneNumberField.setText("");
-            Intent i =new Intent(PhoneAuthActivity.this, MainActivity.class);
-            startActivity(i);
+            SharedPreferences dataSave = getSharedPreferences("firstLog", 0);
+
+            if(dataSave.getString("firstTime", "").equals("no")){ // first run is happened
+                Intent i =new Intent(PhoneAuthActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+            else{ //  this is the first run of application
+                databaseReference= FirebaseDatabase.getInstance().getReference();
+                mAuthu = FirebaseAuth.getInstance();
+                cUser = mAuthu.getCurrentUser();
+                PrimaryWrite primaryWrite=new PrimaryWrite("a_"+Math.random()+"",cUser.getPhoneNumber(),"NA","NA","100","0","0");
+                databaseReference.child("user").child(cUser.getUid()).setValue(primaryWrite);
+                mPhoneNumberField.setText("");
+                SharedPreferences.Editor editor = dataSave.edit();
+                editor.putString("firstTime", "no");
+                editor.commit();
+                Intent i =new Intent(PhoneAuthActivity.this, MainActivity.class);
+                startActivity(i);
+            }
         }
     }
 

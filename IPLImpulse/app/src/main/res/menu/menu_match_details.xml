@@ -9,11 +9,4 @@
         android:icon="@drawable/ic_share_black_24dp"
         android:title="Share"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:icon="@drawable/person_white"
-        android:title="@string/action_settings"
-        app:showAsAction="ifRoom" />
 </menu>

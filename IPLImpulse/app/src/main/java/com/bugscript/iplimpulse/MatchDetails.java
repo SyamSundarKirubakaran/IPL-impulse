@@ -68,10 +68,7 @@ public class MatchDetails extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent i =new Intent(MatchDetails.this,UserInfo.class);
-            startActivity(i);
-        } else if(id == R.id.action_share){
+        if(id == R.id.action_share){
             Intent i=new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             String shareSub = s1+" : Shared through IPL Impulse";

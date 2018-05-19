@@ -367,8 +367,8 @@ public class MainActivity extends AppCompatActivity
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("support_team").setValue(sharedPreferences.getString("team_str","NA"));
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("bet").setValue(sharedPreferences.getString("bet_str","0"));
         databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("bet_team").setValue(sharedPreferences.getString("bet_team_str","NA"));
-        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("points").setValue(sharedPreferences.getString("points_str","100"));
-        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("rank").setValue(sharedPreferences.getString("rank_str","0"));
+//        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("points").setValue(sharedPreferences.getString("points_str","900"));
+//        databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("rank").setValue(sharedPreferences.getString("rank_str","9"));
 
 
 //        Toast.makeText(MainActivity.this,currentUser.getPhoneNumber(),Toast.LENGTH_LONG).show();
@@ -548,19 +548,19 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        points_reference = FirebaseDatabase.getInstance().getReference("user/"+currentUser.getUid()+"/points");
-        points_reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                current_points = dataSnapshot.getValue(String.class);
-//                Toast.makeText(MainActivity.this,current_bet_on+"",Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        points_reference = FirebaseDatabase.getInstance().getReference("user/"+currentUser.getUid()+"/points");
+//        points_reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                current_points = dataSnapshot.getValue(String.class);
+////                Toast.makeText(MainActivity.this,current_bet_on+"",Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
         avg_vote = FirebaseDatabase.getInstance().getReference("schedule/avg_vote");
         avg_vote.addValueEventListener(new ValueEventListener() {
@@ -629,9 +629,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 points_str = dataSnapshot.getValue(String.class);
-//                Toast.makeText(MainActivity.this,page_hits+"",Toast.LENGTH_LONG).show();
                 SharedPreferences sp = getSharedPreferences("shared", MODE_PRIVATE);
                 sp.edit().putString("points_str", points_str).commit();
+//                databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("points").setValue(sharedPreferences.getString("points_str","100"));
+//                Toast.makeText(MainActivity.this,points_str+"",Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -645,9 +646,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 rank_str = dataSnapshot.getValue(String.class);
-//                Toast.makeText(MainActivity.this,page_hits+"",Toast.LENGTH_LONG).show();
                 SharedPreferences sp = getSharedPreferences("shared", MODE_PRIVATE);
                 sp.edit().putString("rank_str", rank_str).commit();
+//                databaseReference.child("user").child(MainActivity.currentUser.getUid()).child("rank").setValue(sharedPreferences.getString("rank_str","0"));
+//                Toast.makeText(MainActivity.this,rank_str+"",Toast.LENGTH_LONG).show();
+
             }
 
             @Override
@@ -760,14 +763,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent i =new Intent(MainActivity.this,UserInfo.class);
-            startActivity(i);
-        }  else if(id == R.id.action_share){
+        if(id == R.id.action_share){
             Intent i=new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             String shareSub="Get IPL Impulse app from Play Store";
-            String shareBody="Support your favorite IPL team and make your favorite team's fan base even more larger. I'm supporting for "+current_support_team+". Let me see which team you're supporting for, in this IPL - IPL 2018 through IPL Impulse App. \n\nGet the app now from Play Store.\nLink : https://play.google.com/store/apps/details?id=com.bugscript.iplimpulse\n\n"+current_user_name;
+            String shareBody="Support your favorite IPL team and make your favorite team's fan base even more larger. I'm supporting for "+current_support_team+". Let me see which team you're supporting for, in this IPL season - IPL 2018 through IPL Impulse. \n\nGet the app now from Play Store.\nLink : https://play.google.com/store/apps/details?id=com.bugscript.iplimpulse\n\n"+current_user_name;
             i.putExtra(Intent.EXTRA_SUBJECT,shareSub);
             i.putExtra(Intent.EXTRA_TEXT,shareBody);
             startActivity(Intent.createChooser(i,"Share with:"));
@@ -828,15 +828,19 @@ public class MainActivity extends AppCompatActivity
                     .commitAllowingStateLoss();
         } else if ( id == R.id.leader_match){
             if (getSupportActionBar() != null)
-                getSupportActionBar().setTitle("Match Support Graph");
+                getSupportActionBar().setTitle("Match Graph");
             fragmentManager.beginTransaction()
                     .replace(R.id.main_frame, new MatchGraphFragment())
                     .commitAllowingStateLoss();
+        } else if ( id == R.id.nav_info ){
+            Intent i =new Intent(MainActivity.this,UserInfo.class);
+            startActivity(i);
         }
 //        else if(id == R.id.logout){
 //            mAuth.signOut();
 //        }
 //        Toast.makeText(MainActivity.this,currentUser.getUid()+"",Toast.LENGTH_LONG).show();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

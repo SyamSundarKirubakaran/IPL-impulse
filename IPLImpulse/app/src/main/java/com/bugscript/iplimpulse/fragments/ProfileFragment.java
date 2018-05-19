@@ -35,19 +35,17 @@ public class ProfileFragment extends Fragment{
         name.setText(MainActivity.current_user_name);
         number.setText(MainActivity.currentUser.getPhoneNumber());
         team_sup.setText(MainActivity.current_support_team);
-        points.setText(MainActivity.current_points);
+        points.setText(MainActivity.points_str);
         return mView;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
         try {
             Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
             childFragmentManager.setAccessible(true);
             childFragmentManager.set(this, null);
-
         } catch (NoSuchFieldException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
