@@ -13,16 +13,16 @@ An Android app that helps you bet on your favourite team and award you based on 
 * Your Rank will be updated once for every 24 Hours.<br />
 
 ## Teams you can Support:
-* CSK - Chennai Super Kings<br />
-* KKR - Kolkata Knight Riders<br />
-* MI - Mumbai Indians<br />
-* RCB - Royal Challengers Bangalore<br />
-* KXIP - Kings XI Punjab<br />
-* DD - Delhi Daredevils<br />
-* SRH - Sunrisers Hyderabad<br />
-* RR - Rajasthan Royals<br />
+* <b>CSK</b> - Chennai Super Kings<br />
+* <b>KKR</b> - Kolkata Knight Riders<br />
+* <b>MI</b> - Mumbai Indians<br />
+* <b>RCB</b> - Royal Challengers Bangalore<br />
+* <b>KXIP</b> - Kings XI Punjab<br />
+* <b>DD</b> - Delhi Daredevils<br />
+* <b>SRH</b> - Sunrisers Hyderabad<br />
+* <b>RR</b> - Rajasthan Royals<br />
 
-## Screen Shots:
+**Screen Shots:**
 <img src="imgs/a1.jpg" height=480 width =270 />
 <img src="imgs/a2.jpg" height=480 width =270 />
 <img src="imgs/a3.jpg" height=480 width =270 />
