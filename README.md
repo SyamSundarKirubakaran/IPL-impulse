@@ -22,7 +22,7 @@ An Android app that helps you bet on your favourite team and award you based on 
 * <b>SRH</b> - Sunrisers Hyderabad<br />
 * <b>RR</b> - Rajasthan Royals<br />
 
-**Screen Shots:**
+**Screen Shots:**<br />
 <img src="imgs/a1.jpg" height=480 width =270 />
 <img src="imgs/a2.jpg" height=480 width =270 />
 <img src="imgs/a3.jpg" height=480 width =270 />
